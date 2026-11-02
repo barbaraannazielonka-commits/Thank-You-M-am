@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thank You, M’am — Reading Lab</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f8;--ink:#14203a;--card:#fff;--blue:#2447c8;--amber:#a85f00;--line:#c9d2e8;--soft:#e2e8f7;--ok:#14733a;--bad:#b3261e;--onblue:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1428;--ink:#e8ecf7;--card:#172042;--blue:#7d9bff;--amber:#ffc15e;--line:#2b3768;--soft:#1d2850;--ok:#6fdc97;--bad:#ff8d85;--onblue:#0e1428}}
+:root[data-theme="dark"]{--bg:#0e1428;--ink:#e8ecf7;--card:#172042;--blue:#7d9bff;--amber:#ffc15e;--line:#2b3768;--soft:#1d2850;--ok:#6fdc97;--bad:#ff8d85;--onblue:#0e1428}
+*{box-sizing:border-box}
+html{scroll-padding-top:60px}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 Karla,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.15;margin:0 0 .5em}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.hero{padding:64px 0 40px;background:radial-gradient(circle at 85% 0,color-mix(in srgb,var(--amber) 35%,transparent),transparent 45%)}
+.hero h1{font-size:clamp(2.6rem,9vw,5rem);font-weight:900;letter-spacing:-.02em}
+.hero .line{font-family:Fraunces,serif;font-style:italic;font-size:1.25rem;color:var(--amber);margin:0 0 .6em}
+.by{opacity:.75}
+.intro{background:var(--card);border-left:6px solid var(--blue);padding:18px 22px;border-radius:4px;margin:28px 0}
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 24px}
+.paths button{font:inherit;text-align:left;padding:16px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer}
+.paths button b{display:block;font-family:Fraunces,serif;font-size:1.2rem}
+.paths button[aria-pressed=true]{border-color:var(--blue);background:var(--soft)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:8px 20px}
+nav a{white-space:nowrap;color:var(--ink);text-decoration:none;padding:5px 12px;border-radius:99px;background:var(--soft);font-size:.9rem;font-weight:600}
+section{padding:36px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+.story p{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.08rem;line-height:1.8;margin:0 0 1em}
+.story{font-weight:600}
+.v{position:relative;border-bottom:2px dotted var(--amber);cursor:help;background:color-mix(in srgb,var(--amber) 14%,transparent)}
+.v[data-t]:hover::after,.v[data-t]:focus::after{content:attr(data-t);position:absolute;left:0;top:100%;margin-top:4px;z-index:6;background:var(--blue);color:var(--onblue);padding:6px 10px;border-radius:6px;font:600 .85rem/1.35 Karla,sans-serif;font-style:normal;width:max-content;max-width:230px;white-space:normal}
+#gl{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom,0px));background:var(--blue);color:var(--onblue);padding:10px 16px;border-radius:8px;margin-top:10px;display:none;font-size:.95rem}
+audio{width:100%;margin:8px 0}
+button.b,.opts button{font:inherit;border:2px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;border-radius:8px;cursor:pointer;text-align:left}
+button.b{background:var(--blue);border-color:var(--blue);color:var(--onblue);font-weight:700}
+.opts{display:grid;gap:8px}
+button:disabled{opacity:.45;cursor:not-allowed}
+.opts button.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--card))}
+.opts button.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,var(--card))}
+.fb{margin:8px 0 0;font-size:.95rem;min-height:1.2em}
+textarea,select,input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:9px}
+textarea{min-height:90px;resize:vertical}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1.4fr;gap:10px;align-items:center;margin:8px 0}
+.tr{display:grid;grid-template-columns:120px 150px 1fr;gap:8px;margin:8px 0}
+.tag{font-weight:700;color:var(--amber)}
+small{opacity:.8}
+.mk.ok{outline:3px solid var(--ok)}.mk.no{outline:3px solid var(--bad)}
+@media(max-width:600px){.paths{grid-template-columns:1fr}.row,.tr{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+.ss-link{font:inherit;font-weight:700;color:var(--blue);background:none;border:0;border-bottom:2px solid var(--blue);padding:0;cursor:pointer}
+.ss-link:hover{background:color-mix(in srgb,var(--blue) 14%,transparent)}
+.ss-hint{font-size:.8em}
+#ss{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#ss .bar{position:sticky;top:0;background:var(--bg);border-bottom:2px solid var(--line);padding:10px 0;z-index:2}
+#ss .bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#ss h2{margin-top:1.6em}
+#ss h3{margin-top:1.4em;color:var(--blue)}
+#ss .el{display:grid;gap:10px;margin:14px 0}
+#ss .el div{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:12px 16px}
+#ss .el b{font-family:Fraunces,Georgia,serif}
+#ss ul{margin:.4em 0 1em;padding-left:1.3em}
+#ss .types{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#ss .types div{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px}
+#ss .lvl{border-left:6px solid var(--line);background:var(--card);padding:10px 16px;border-radius:4px;margin:10px 0}
+#ss .lvl.l2{border-color:var(--amber)}#ss .lvl.l3{border-color:var(--blue)}
+#ss .lvl small{display:block;font-weight:700;text-transform:uppercase;letter-spacing:.06em;opacity:1;color:var(--amber)}
+#ss .ck{display:flex;gap:10px;align-items:flex-start;margin:6px 0;cursor:pointer}
+#ss .ck input{width:22px;height:22px;margin-top:4px;flex:none}
+body.ss-open{overflow:hidden}
+@media(max-width:600px){#ss .types{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<header class="hero"><div class="wrap">
+<p class="line">It was about eleven o’clock at night…</p>
+<h1>Thank You, M’am</h1>
+<p class="by">A short story by Langston Hughes · Health and Life Skills · Final lesson</p>
+<div class="intro"><p>For the past 10 weeks, we have been working on an interdisciplinary topic called <b>Health and Life Skills</b>. Today, we will wrap up this topic by analysing a <button type="button" class="ss-link" id="ss-open">short story</button> called <i>Thank You, M’am</i> by Langston Hughes (1901–1967), an influential African American poet, novelist and short-story writer, best known for his contributions to the Harlem Renaissance. The story focuses on a teenage boy named Roger, who attempts to steal a woman’s purse but unexpectedly receives kindness, guidance and a second chance instead of punishment. Through this story, we will explore themes such as empathy, trust, responsibility, relationships and personal growth. You will read or listen to the story at your own pace and complete a series of activities to demonstrate your understanding of the text and its connection to Health and Life Skills.</p></div>
+<p><b>Two versions, choose one.</b> This lab has two versions: <b>B2</b> is a simpler version with clearer questions and support, and <b>C1/C2</b> is a more challenging version about tone, subtext and the writer’s craft. Please choose <b>only one</b> version below and complete all the tasks in that version. If you switch versions, your answers will be reset.</p>
+<h3>Choose your path</h3>
+<div class="paths">
+<button id="pb2" aria-pressed="true"><b>B2 · Step inside the story</b>Follow events, feelings and clear evidence.</button>
+<button id="pc1" aria-pressed="false"><b>C1/C2 · Read between the lines</b>Interpret tone, subtext and craft.</button>
+</div>
+</div></header>
+<nav><div class="wrap" id="nav"></div></nav>
+<main class="wrap" id="app"></main>
+
+<div id="ss" role="dialog" aria-modal="true" aria-labelledby="ss-title" hidden>
+<div class="bar"><div class="wrap"><b>Short story guide</b><button type="button" class="b" id="ss-close">← Back to the lab</button></div></div>
+<div class="wrap" style="padding-bottom:60px">
+<h1 id="ss-title" style="margin-top:28px;font-size:clamp(2rem,6vw,3rem)">Understanding and Analysing a Short Story</h1>
+
+<h2>1. What makes a successful short story?</h2>
+<p>A short story is a fictional narrative that usually focuses on one main event, a small number of characters and a central conflict. Unlike a novel, it is relatively short and often takes place over a limited period of time. However, a successful short story can communicate powerful ideas, explore human experiences and make readers think.</p>
+<p>A good short story usually contains the following elements:</p>
+<div class="el">
+<div><b>1. An interesting beginning (Introduction)</b><br>The opening introduces the main character, setting and situation. It should catch the reader’s attention and make them want to continue reading.</div>
+<div><b>2. Well-developed characters</b><br>The characters are the people who take part in the story. Even in a short story, the main character should have a recognisable personality, feelings, motivations and relationships with others. Readers should be able to understand what the character wants and why.</div>
+<div><b>3. A clear conflict or problem</b><br>Most short stories revolve around a central conflict. This could be an internal conflict (a struggle within a character, such as fear, guilt or insecurity) or an external conflict (a problem involving another person, society or the environment).</div>
+<div><b>4. A meaningful plot</b><br>The plot is the sequence of events in the story. It usually develops from the introduction to a turning point or climax, followed by a resolution. Each event should contribute to the development of the story.</div>
+<div><b>5. An effective ending</b><br>A successful ending gives readers something to think about. It may solve the main conflict, reveal something unexpected or leave certain questions unanswered. Sometimes, the ending changes how we understand the entire story.</div>
+<div><b>6. An important message or theme</b><br>A short story often explores universal topics such as friendship, love, identity, discrimination, family, courage or personal growth. The theme is the deeper message or central idea that the writer wants readers to reflect on.</div>
+</div>
+
+<h2>2. How do we analyse a short story?</h2>
+<p>When analysing a short story, we look beyond what happens in the plot. We try to understand how the writer presents the characters, develops the conflict and communicates ideas and messages.</p>
+<p>Use the following questions as a guide:</p>
+
+<h3>A. Setting – Where and when does the story take place?</h3>
+<ul><li>Where does the action take place?</li><li>When does the story happen?</li><li>Does the setting influence the characters or events?</li><li>Does the atmosphere create a particular mood?</li></ul>
+
+<h3>B. Characters – Who are the people in the story?</h3>
+<ul><li>Who is the main character (protagonist)?</li><li>What do we know about their age, background and personality?</li><li>What are their strengths and weaknesses?</li><li>What motivates their actions?</li><li>How do they feel throughout the story?</li><li>Do they change or develop? If so, how?</li><li>What are their relationships with other characters like?</li></ul>
+<p><b>Remember:</b> Writers do not always describe characters directly. We often learn about their personalities through their actions, thoughts, dialogue and interactions with others. This is called <i>characterisation</i>.</p>
+
+<h3>C. Plot – What happens in the story?</h3>
+<ul><li>What happens at the beginning?</li><li>What is the main problem or conflict?</li><li>What events move the story forward?</li><li>Is there a turning point or climax?</li><li>How is the conflict resolved?</li><li>Is the ending predictable or surprising?</li></ul>
+
+<h3>D. Conflict – What is the main struggle?</h3>
+<p>There are different types of conflict in literature:</p>
+<div class="types">
+<div><b>Character vs. character</b><br>A disagreement or struggle between two or more people.</div>
+<div><b>Character vs. self</b><br>An internal struggle involving emotions, decisions or beliefs.</div>
+<div><b>Character vs. society</b><br>A struggle against social expectations, discrimination or injustice.</div>
+<div><b>Character vs. nature</b><br>A struggle against natural forces or the environment.</div>
+</div>
+<p>Ask yourself: What causes the conflict, and how does it affect the main character?</p>
+
+<h3>E. Point of view – Who tells the story?</h3>
+<p>The point of view determines whose perspective we experience.</p>
+<ul><li><b>First-person narrator:</b> The narrator is part of the story and uses “I” or “we”.</li><li><b>Third-person narrator:</b> The narrator tells the story using “he”, “she” or “they”. The narrator may know the thoughts and feelings of several characters or focus mainly on one character.</li></ul>
+<p>Ask yourself: How does the narrator influence what we know about the characters and events?</p>
+
+<h3>F. Language and literary devices – How does the writer communicate ideas?</h3>
+<p>Writers use different techniques to make their stories more interesting and meaningful. Some common literary devices include:</p>
+<ul><li><b>Dialogue:</b> Conversations between characters. Dialogue can reveal personality, emotions and relationships.</li><li><b>Imagery:</b> Descriptive language that helps readers imagine what something looks, sounds, smells, tastes or feels like.</li><li><b>Simile:</b> A comparison using “like” or “as”.</li><li><b>Metaphor:</b> A direct comparison between two things.</li><li><b>Symbolism:</b> When an object, person or event represents a deeper meaning.</li><li><b>Repetition:</b> Repeating words or phrases to emphasise an idea or emotion.</li><li><b>Foreshadowing:</b> Hints about events that may happen later in the story.</li></ul>
+
+<h3>G. Theme and message – What is the story really about?</h3>
+<ul><li>What are the main themes?</li><li>What does the story teach us about people, relationships or society?</li><li>What message might the writer want to communicate?</li><li>Does the story connect to real-life experiences or issues?</li><li>Has the story changed the way you think about a particular topic?</li></ul>
+<p>Remember the difference:</p>
+<ul><li><b>Topic:</b> What the story deals with (e.g. friendship, bullying or identity).</li><li><b>Theme:</b> The deeper idea explored through that topic (e.g. genuine friendship requires trust and acceptance).</li><li><b>Message:</b> What readers might learn or take away from the story.</li></ul>
+
+<h2>3. From reading to analysis: remember the golden rule!</h2>
+<p>A good literary analysis does not simply retell the story. It explains how and why the writer uses particular elements to communicate ideas. Always support your interpretations with examples from the text.</p>
+<p>For example:</p>
+<div class="lvl"><small>Simple observation</small>Roger is frightened.</div>
+<div class="lvl l2"><small>Better analysis</small>Roger is frightened because he does not know what Mrs. Jones intends to do with him. His fear is revealed through his actions and his repeated requests to be released.</div>
+<div class="lvl l3"><small>Even deeper analysis</small>Roger’s initial fear gradually changes into trust. Mrs. Jones’s unexpected kindness challenges his expectations and gives him an opportunity to experience a positive relationship with an adult.</div>
+<p>This is what makes literary analysis interesting: we move from identifying information to interpreting it and explaining its significance.</p>
+
+<h2>4. Your short story analysis checklist</h2>
+<p>When analysing a short story, make sure you can answer these questions. Tick each one as you go.</p>
+<div class="card" id="ss-ck">
+<label class="ck"><input type="checkbox"><span>Can I identify the setting and main characters?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I describe the main character’s personality using evidence?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I explain the central conflict?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I identify the turning point and resolution?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I explain the narrator’s point of view?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I identify examples of literary devices?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I identify the main themes?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I explain the writer’s possible message?</span></label>
+<label class="ck"><input type="checkbox"><span>Can I support my interpretations with examples from the text?</span></label>
+<p><b id="ss-ckn">0 / 9 ticked</b></p>
+</div>
+<p><b>Final thought:</b> Reading a short story means discovering what happens. Analysing a short story means understanding why it happens, how the writer makes it meaningful and what we can learn from it.</p>
+<p><button type="button" class="b" id="ss-close2">← Back to the lab</button></p>
+</div></div>
+<footer class="wrap"><p><b>Nannestad High School – Barbara Anna Zielonka</b></p></footer>
+
+<script>
+const STORY=`She was a large woman with a large purse that had everything in it but hammer and nails. It had a long strap, and she carried it slung across her shoulder. It was about eleven o’clock at night, and she was walking alone, when a boy ran up behind her and tried to snatch her purse. The strap broke with the single tug the boy gave it from behind. But the boy’s weight and the weight of the purse combined caused him to lose his balance so, instead of taking off full blast as he had hoped, the boy fell on his back on the sidewalk, and his legs flew up. The large woman simply turned around and kicked him right-square in his blue-jeaned sitter. Then she reached down, picked the boy up by his shirt front, and shook him until his teeth rattled.
+After that the woman said, “Pickup my pocketbook, boy, and give it here.”
+She still held him. But she bent down enough to permit him to stoop and pick up her purse. Then she said, “Now ain’t you ashamed of yourself?”
+Firmly gripped by his shirt front, the boy said, “Yes ’m.”
+The woman said, “What did you want to do it for?”
+The boy said, “I didn’t aim to.”
+She said, “You a lie!”
+By that time two or three people passed, stopped, turned to look, and some stood watching.
+“If I turn you loose, will you run?” asked the woman.
+“Yes’m,” said the boy.
+“Then I won’t turn you loose,” said the woman. She did not release him.
+“I’m very sorry, lady, I’m sorry,” whispered the boy.
+“Um-hum! And your face is dirty. I got a great mind to wash your face for you.”
+“Ain’t you got nobody home to tell you to wash your face?”
+“No’m,” said the boy.
+“Then it will get washed this evening,” said the large woman starting up the street, dragging the frightened boy behind her. He looked as if he were fourteen or fifteen, frail and willow-wild, in tennis shoes and blue jeans.
+The woman said, “You ought to be my son. I would teach you right from wrong. Least I can do right now is to wash your face. Are you hungry?”
+“No’m,” said the being dragged boy. “I just want you to turn me loose.”
+“Was I bothering you when I turned that corner?” asked the woman.
+“No’m.”
+“But you put yourself in contact with me,” said the woman. “If you think that that contact is not going to last a while, you got another thought coming. When I get through with you, sir, you are going to remember Mrs. Luella Bates Washington Jones.”
+Sweat popped out on the boy’s face and he began to struggle. Mrs. Jones stopped, jerked him around in front of her, put a half-nelson about his neck, and continued to drag him up the street. When she got to her door, she dragged the boy inside, down a hall, and into a large kitchenette-furnished room at the rear of the house. She switched on the light and left the door open. The boy could hear other roomers laughing and talking in the large house. Some of their doors were open, too, so he knew he and the woman were not alone. The woman still had him by the neck in the middle of her room.
+She said, “What is your name?”
+“Roger,” answered the boy.
+“Then, Roger, you go to that sink and wash your face,” said the woman, whereupon she turned him loose – at last. Roger looked at the door – looked at the woman – looked at the door – and went to the sink.
+“Let the water run until it gets warm,” she said. “Here’s a clean towel”.
+“You gonna take me to jail?” asked the boy, bending over the sink.
+“Not with that face, I would not take you nowhere”, said the woman. Here I am trying to get home to cook me a bite to eat and you snatch my pocketbook. Maybe, you ain’t been to your supper either, late as it be. Have you?”
+“There’s nobody home at my house,” said the boy.
+“Then we’ll eat,” said the woman, “I believe you’re hungry – or been hungry – to try to snatch my pocketbook.”
+“I wanted a pair of blue suede shoes,” said the boy.
+“Well, you didn’t have to snatch my pocketbook to get some suede shoes” said Mrs. Luella Bates Washington jones. “You could of asked me.”
+“M’am?”
+The water dripping from his face, the boy looked at her. There was a long pause. A very long pause. After he had dried his face and not knowing what else to do, dried it again, the boy turned around, wondering what next. The door was open. He could make a dash for it down the hall. He could run, run, run, run, run!
+The woman was sitting on the day-bed. After a while she said, “I were young once and I wanted things I could not get.” There was another long pause. The boy’s mouth opened. Then he frowned, but not knowing he frowned.
+The woman said, “Um-hum! You thought I was going to say but, didn’t you?”
+“You thought I was going to say, but I didn’t snatch people’s pocketbooks. Well, I wasn’t going to say that.” Pause. Silence. “I have done things, too, which I would not tell you, son – neither tell God, if he didn’t already know. So you set down while I fix us something to eat. You might run that comb through your hair so you will look presentable.”
+In another corner of the room behind a screen was a gas plate and an icebox.
+Mrs. Jones got up and went behind the screen. The woman did not watch the boy to see if he was going to run now, nor did she watch her purse which she left behind her on the day-bed. But the boy took care to sit on the far side of the room where he thought she could easily see him out of the corner of the other eye if she wanted to. He did not trust the woman not to trust him. And he did not want to be mistrusted now.
+“Do you need somebody to go to the store,” asked the boy, “maybe to get some milk or something?”
+“Don’t believe I do,” said the woman, “unless you just want sweet milk yourself. I was going to make cocoa out of this canned milk I got here.”
+“That will be fine,” said the boy.
+She heated some lima beans and ham she had in the icebox, made the cocoa, and set the table. The woman did not ask the boy anything about where he lived, or his folks, or anything else that would embarrass him. Instead, as they ate, she told him about her job in a hotel beauty-shop that stayed open late, what the work was like, and how all kinds of women came in and out, blondes, red-heads, and Spanish. Then she cut him a half of her ten-cent cake.
+“Eat some more, son,” she said.
+When they were finished eating she got up and said, “Now, here, take this ten dollars and buy yourself some blue suede shoes. And next time, do not make the mistake of latching onto my pocketbook nor nobody else’s – because shoes come by devilish like that will burn your feet. I got to get my rest now. But I wish you would behave yourself, son, from here on in.”
+She led him down the hall to the front door and opened it. “Goodnight! Behave yourself, boy!” she said, looking out into the street.
+The boy wanted to say something else other than “Thank you, M’am” to Mrs. Luella Bates Washington Jones, but he couldn’t do so as he turned at the barren stoop and looked back at the large woman in the door. He barely managed to say “Thank you” before she shut the door. And he never saw her again.`;
+
+const D={
+b2:{
+ pre:`A boy tries to snatch a stranger’s purse at night. In one sentence: what do you think the woman will do? Would you be surprised if she were kind?`,
+ gl:{snatch:`to grab something quickly and take it`,frail:`thin and weak-looking`,stoop:`to bend down`,embarrass:`to make someone feel ashamed or uncomfortable`,presentable:`neat and tidy enough to be seen by other people`,mistrusted:`not trusted; suspected`},
+ mcq:[
+ [`Why does the boy fall over when he tries to steal the purse?`,[`The woman pushes him.`,`The strap breaks and his weight and the purse’s weight pull him off balance.`,`He trips on a stone.`],1,`The strap breaks, and the weight of both boy and purse unbalances him.`],
+ [`Why does Mrs. Jones take Roger to her home?`,[`To call the police.`,`To wash his face, feed him and teach him right from wrong.`,`To ask his parents for money.`],1,`She says she will wash his face, and then she feeds him. She treats him like a son.`],
+ [`What did Roger want to buy?`,[`Blue suede shoes.`,`Food.`,`A winter jacket.`],0,`He says, “I wanted a pair of blue suede shoes.”`],
+ [`What does Mrs. Jones admit about herself?`,[`She has never made a mistake.`,`She also wanted things she couldn’t get, and has done things she is not proud of.`,`She is afraid of young people.`],1,`Her honesty shows she understands him instead of judging him.`],
+ [`Why does she leave her purse on the day-bed?`,[`She forgets it.`,`She wants to show that she trusts him.`,`She wants him to steal it.`],1,`Leaving the purse is a silent act of trust, and Roger feels it.`]],
+ voc:[[`snatch`,`to grab something quickly and take it`],[`frail`,`thin and weak-looking`],[`stoop`,`to bend down`],[`embarrass`,`to make someone feel ashamed`],[`presentable`,`neat enough to be seen by others`],[`mistrusted`,`not trusted`]],
+ traits:[`ashamed`,`generous`,`strict`,`lonely`,`determined`,`trusting`],
+ arc:[`Roger at the start`,`Roger at the end`],
+ refl:[[`Trust`,`Why do you think Mrs. Jones lets Roger sit alone near the open door? What would you have done? Start: “I think she did it because…”`],[`Empathy`,`Mrs. Jones says she was young once and wanted things she could not get. How does this help Roger? Start: “Her honesty helps him because…”`],[`My life`,`Think of a person who gave you a second chance, or who you could give one to. What would you say or do? Start: “Someone who helped me was…”`]],
+ wr:{t:`Write Roger’s thank-you letter to Mrs. Jones (80–100 words). What does he finally manage to say? What has changed?`,min:80,k:[`snatch`,`ashamed`,`trust`,`shoes`]}},
+c1:{
+ pre:`“She was a large woman with a large purse that had everything in it but hammer and nails.” What kind of narrator and tone does that opening promise? Predict how a character like this will deal with a thief.`,
+ gl:{"willow-wild":`thin and bendy like a young tree, yet untamed`,barren:`bare and empty, with nothing welcoming about it`,"latching onto":`seizing and gripping something`,"half-nelson":`a wrestling hold that pins the neck and arm`,presentable:`tidy enough to be seen in public`,mistrusted:`regarded with suspicion`},
+ mcq:[
+ [`“Frail and willow-wild”: what does this phrase suggest about Roger?`,[`He is physically dangerous.`,`He is vulnerable and neglected, yet still unshaped, so he can still change.`,`He is secretly wealthy.`],1,`Willow suggests flexibility and youth. “Wild” suggests no one has guided him yet.`],
+ [`Why does Mrs. Jones say, “You thought I was going to say but, didn’t you?”`,[`She wants to scold him more.`,`She refuses to offer him an easy excuse or an easy judgement: she names what he expects and breaks it.`,`She is mocking his grammar.`],1,`She anticipates his defence and sidesteps both moralising and excuses.`],
+ [`“He did not trust the woman not to trust him.” What is the effect of this twisted syntax?`,[`It shows his confusion: her trust is so unexpected that he cannot believe it is real.`,`It is a printing error.`,`It shows he plans to rob her again.`],0,`The doubled negative mirrors his mental tangle and his wish to earn trust.`],
+ [`Why does she avoid asking about his home or family?`,[`She is not interested.`,`She protects his dignity, so kindness does not feel like charity or interrogation.`,`She already knows the answers.`],1,`The narrator states it: nothing “that would embarrass him”.`],
+ [`The story ends with Roger barely managing “Thank you”, and “he never saw her again”. What does this ending achieve?`,[`It resolves the plot neatly.`,`It leaves the impact open: gratitude outgrows words and a single encounter can change a life.`,`It suggests Roger remains a thief.`],1,`The open ending keeps the focus on the moment of grace, not on consequences.`]],
+ voc:[[`willow-wild`,`thin and bendy like a young tree, yet untamed`],[`barren`,`bare and empty, with nothing welcoming`],[`latching onto`,`seizing and gripping`],[`half-nelson`,`a wrestling hold on the neck and arm`],[`presentable`,`tidy enough for public view`],[`mistrusted`,`regarded with suspicion`]],
+ traits:[`pragmatic`,`vulnerable`,`proud`,`compassionate`,`wary`,`authoritative`],
+ arc:[`Roger: from wary thief to…`,`Mrs. Jones: what her kindness costs and risks`],
+ refl:[[`Craft`,`Hughes uses dialect, pauses and silence (“A very long pause”). Choose one and explain how it builds tension or tenderness. Start: “The effect of … is …”`],[`Ethics`,`Is Mrs. Jones’s approach (force first, then kindness) a model of mentoring or a risk? Weigh both sides, then take a position.`],[`Life skills`,`Link the story to empathy, responsibility and relationships. When is accountability better served by kindness than by punishment? Support with an example from life or the text.`]],
+ wr:{t:`Write Roger’s letter to Mrs. Jones ten years later (150–180 words). Reveal what the evening taught him. Include at least one metaphor.`,min:150,k:[`latching`,`mistrust`,`presentable`,`barren`]}}
+};
+let L='b2',used=new Set();
+const NO={snatch:`rive til seg, kapre`,frail:`spinkel, skrøpelig`,stoop:`bøye seg ned`,embarrass:`gjøre flau`,presentable:`presentabel, ryddig`,mistrusted:`mistrodd`,'willow-wild':`tynn og smidig som en pilekvist, men vill`,barren:`nakent, goldt, tomt`,'latching onto':`hogge tak i, klamre seg til`,'half-nelson':`halv nelson (bryttergrep)`,ashamed:`skamfull`,pocketbook:`veske`,roomers:`leietakere`,icebox:`gammeldags kjøleskap`,devilish:`djevelsk, uærlig`,rattled:`skrangle, rasle`};
+const EXTRA={snatch:`to grab something quickly and take it`,frail:`thin and weak-looking`,stoop:`to bend down`,embarrass:`to make someone feel ashamed`,ashamed:`feeling guilty or embarrassed about what you did`,pocketbook:`a woman’s handbag or purse (US, old-fashioned)`,roomers:`people who rent rooms in a house`,icebox:`an old-fashioned fridge`,devilish:`wicked; here, dishonestly gained`,rattled:`made a quick shaking noise`};
+const G=()=>Object.assign({},EXTRA,D[L].gl);
+const T=w=>(NO[w]||'')+' · '+G()[w];
+const E=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const nav=[['read','Read & listen'],['comp','Comprehension'],['vocab','Vocabulary'],['chars','Character map'],['refl','Reflections'],['write','Write'],['submit','Hand in']];
+function render(){
+ const d=D[L],gk=Object.keys(G()),seen=new Set();
+ const paras=STORY.split('\n').map(p=>{let h=p;gk.forEach(w=>{if(seen.has(w))return;const r=new RegExp('(^|[^\\w-])('+E(w)+')','i');if(r.test(h)){seen.add(w);h=h.replace(r,(m,a,b)=>a+'<span class="v" tabindex="0" data-w="'+w+'" data-t="'+T(w)+'">'+b+'</span>')}});return '<p>'+h+'</p>'}).join('');
+ const mcq=d.mcq.map((q,i)=>`<div class="card"><p><b>${i+1}. ${q[0]}</b></p><div class="opts">${q[1].map((o,j)=>`<button data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div><p class="fb"></p></div>`).join('');
+ const defs=d.voc.map(v=>v[1]).sort(()=>Math.random()-.5);
+ const voc=d.voc.map(v=>`<div class="row"><b>${v[0]}</b><select data-a="${v[1]}"><option value="">Choose the meaning…</option>${defs.map(x=>`<option>${x}</option>`).join('')}</select></div>`).join('');
+ const tr=d.traits.map(t=>`<div class="tr"><b>${t}</b><select><option>Who?</option><option>Roger</option><option>Mrs. Jones</option><option>Both</option></select><input type="text" class="ans" data-l="Trait ${t}: evidence" placeholder="Evidence from the text"></div>`).join('');
+ const rf=d.refl.map(r=>`<div class="card"><p><b>${r[0]}.</b> ${r[1]}</p><textarea class="ans" data-l="${r[0]}"></textarea></div>`).join('');
+ document.getElementById('app').innerHTML=`
+<section id="read"><h2>Before you read</h2><div class="card"><p>${d.pre}</p><textarea class="ans" data-l="Prediction"></textarea></div>
+<h2>Read and listen</h2><p>Read, listen, or do both. Hover over (or tap) the <span class="v">dotted words</span> to see the Norwegian translation and an English definition.</p>
+<div id="audbox"><audio id="aud" controls preload="auto" style="width:100%" src="thank-you.mp3">Your browser does not support audio.</audio><p id="audmsg" style="margin:4px 0"><small>If the player does not start, read the story below instead.</small></p></div><div class="story card">${paras}</div></section>
+<section id="comp"><h2>Comprehension</h2><p>Choose an answer. You get feedback straight away, so use it to learn.</p>${mcq}<p><b id="sc"></b></p>
+<div class="card"><p><b>Your turn.</b> Find one line that shows Mrs. Jones’s character and explain why you chose it.</p><textarea class="ans" data-l="Key line"></textarea></div></section>
+<section id="vocab"><h2>Vocabulary</h2><p>Match each word from the story to its meaning.</p><div class="card">${voc}<button class="b" id="cv">Check</button> <span class="fb" id="vf"></span></div></section>
+<section id="chars"><h2>Character map</h2><p>Who shows each trait? Decide, then prove it with evidence from the story.</p><div class="card">${tr}</div>
+<div class="card"><p><b>Character arc</b></p>${d.arc.map(a=>`<p>${a}</p><textarea class="ans" data-l="${a}" style="min-height:60px"></textarea>`).join('')}</div></section>
+<section id="refl"><h2>Reflections</h2>${rf}</section>
+<section id="write"><h2>Write</h2><div class="card"><p>${d.wr.t}</p><p>Try to use: <b id="tg">${d.wr.k.join(' · ')}</b></p><textarea class="ans" id="wt" data-l="Letter" style="min-height:200px"></textarea><p><small id="wc">0 words</small></p></div>
+<div class="card"><p><b>Exit ticket.</b> Finish: “One thing this story taught me about life is…”</p><textarea class="ans" data-l="Exit ticket"></textarea></div>
+</section>
+<section id="submit"><h2>Hand in your work</h2><div class="card"><p>Type your name and finish every task. Then press <b>Copy my answers</b>, copy what appears in the frame and send it to me on Microsoft Teams.</p><input type="text" id="sn" class="ans" data-l="Name" placeholder="Your full name" style="margin-bottom:12px"><p id="prog" style="line-height:1.9"></p><p><b id="pf"></b></p>
+<div id="pts" style="border:2px solid var(--line);border-radius:10px;padding:12px;margin:12px 0"></div>
+<button class="b" id="cp">Copy my answers</button><div id="cf" style="margin-top:10px"></div><p><small>Press the button. Your answers and points will appear in a frame. Copy what appears in the frame and send it to Barbara Anna Zielonka on Microsoft Teams.</small></p></div><p>Well done. Thank you for your effort over these ten weeks!</p></section>`;
+ document.getElementById('nav').innerHTML=nav.map(n=>`<a href="#${n[0]}">${n[1]}</a>`).join('');
+ document.getElementById('pb2').setAttribute('aria-pressed',L=='b2');document.getElementById('pc1').setAttribute('aria-pressed',L=='c1');
+used=new Set();Object.keys(picks).forEach(k=>delete picks[k]);Object.keys(first).forEach(k=>delete first[k]);vfirst=null;upd();
+}
+document.addEventListener('click',e=>{
+ const t=e.target;
+ if(t.id=='pb2'||t.id=='pc1'){L=t.id=='pb2'?'b2':'c1';render();return}
+ if(t.dataset.q!==undefined){const i=+t.dataset.q,o=+t.dataset.o,q=D[L].mcq[i],box=t.closest('.card');picks[L+i]=o;if(first[L+i]===undefined)first[L+i]=(o==q[2]?1:0);setTimeout(upd,0);
+  box.querySelectorAll('button').forEach(b=>b.classList.remove('ok','no'));
+  t.classList.add(o==q[2]?'ok':'no');
+  box.querySelector('.fb').textContent=(o==q[2]?'Yes! ':'Not quite — try again to learn the answer. ')+(o==q[2]?q[3]+' ':'')+'['+first[L+i]+' / 1 point'+(first[L+i]?'':' – your first answer counts')+']';
+  upd()}
+ if(t.id=='cv'){let n=0;document.querySelectorAll('#vocab select').forEach(s=>{const ok=s.value==s.dataset.a;if(ok)n++;s.classList.toggle('mk',true);s.classList.toggle('ok',ok);s.classList.toggle('no',!ok)});
+  if(vfirst===null)vfirst=n;
+  document.getElementById('vf').textContent=n+' / '+D[L].voc.length+' correct'+(n==D[L].voc.length?' — brilliant!':' — check the red ones.')+' · Points: '+vfirst+' / '+D[L].voc.length+' (your first check counts)';upd()}
+ if(t.id=='cp'){const d=D[L],f=document.getElementById('cf'),P=pts(),it=items();
+  const L1=[],nm=V('Name');
+  L1.push('Thank You, M\u2019am \u2013 Reading Lab','Name: '+nm+' | Path: '+(L=='b2'?'B2':'C1/C2')+' | Date: '+new Date().toLocaleDateString('en-GB'),'');
+  L1.push('POINTS (automatically marked)','Comprehension: '+P.m+' / '+P.mt,'Vocabulary: '+P.v+' / '+P.vt,'Total: '+(P.m+P.v)+' / '+(P.mt+P.vt),'');
+  L1.push('Comprehension answers');d.mcq.forEach((q,i)=>{const o=picks[L+i];L1.push((i+1)+'. '+(o===undefined?'(no answer)':q[1][o]+(o==q[2]?' (correct)':' (wrong)'))+' \u2013 first try: '+(first[L+i]?'1':'0')+' point')});L1.push('');
+  L1.push('Vocabulary');A('#vocab .row').forEach(r=>{const s=r.querySelector('select');L1.push(r.querySelector('b').textContent+': '+(s.value||'(no answer)')+(s.value==s.dataset.a?' (correct)':' (wrong)'))});L1.push('');
+  L1.push('Character map');A('.tr').forEach(r=>L1.push(r.querySelector('b').textContent+' \u2013 '+r.querySelector('select').value+': '+r.querySelector('input').value));L1.push('');
+  L1.push('OPEN-ENDED ANSWERS','');
+  A('.ans').filter(a=>a.dataset.l!='Name'&&a.tagName=='TEXTAREA').forEach(a=>L1.push(a.dataset.l+': '+(a.value.trim()||'(empty)'),''));
+  const out=L1.join('\n');
+  f.innerHTML='';const msg=document.createElement('p');msg.innerHTML='<b>Copy everything that appears in the frame below</b> (click inside it, select all with Ctrl+A / Cmd+A, then copy with Ctrl+C / Cmd+C) and <b>send it to Barbara Anna Zielonka on Microsoft Teams.</b>';
+  const ta=document.createElement('textarea');ta.value=out;ta.readOnly=true;ta.setAttribute('aria-label','Your answers');ta.style.cssText='width:100%;height:260px;margin-top:6px';
+  f.appendChild(msg);f.appendChild(ta);ta.focus();ta.select();try{navigator.clipboard&&navigator.clipboard.writeText(out).catch(()=>{})}catch(x){}}
+});
+document.addEventListener('input',e=>{if(e.target.id=='wt'){const v=e.target.value,n=(v.trim().match(/\S+/g)||[]).length,d=D[L].wr;
+ const hit=d.k.filter(k=>v.toLowerCase().includes(k)).length;
+ document.getElementById('wc').textContent=n+' words (aim for '+d.min+'+) · target words used: '+hit+' / '+d.k.length}});
+const picks={},first={};let vfirst=null;
+const A=s=>[...document.querySelectorAll(s)],V=l=>{const e=A('.ans').find(a=>a.dataset.l==l);return e?e.value.trim():''};
+function items(){const d=D[L],wc=(V('Letter').match(/\S+/g)||[]).length;
+ return [['Your name',V('Name').length>1],['Prediction',V('Prediction').length>7],['Comprehension questions',d.mcq.every((q,i)=>picks[L+i]!==undefined)],['Key line',V('Key line').length>7],['Vocabulary matching',A('#vocab select').every(s=>s.value)],['Character map',A('.tr select').every(s=>s.value!='Who?')&&d.traits.every(t=>V('Trait '+t+': evidence').length>2)],['Character arc',d.arc.every(a=>V(a).length>7)],['Reflections',d.refl.every(r=>V(r[0]).length>7)],['Letter ('+d.wr.min+'+ words)',wc>=d.wr.min],['Exit ticket',V('Exit ticket').length>7]]}
+function upd(){const p=document.getElementById('prog');if(!p)return;const it=items(),n=it.filter(x=>x[1]).length;
+ p.innerHTML=it.map(x=>(x[1]?'✔ ':'○ ')+x[0]).join('<br>');
+ document.getElementById('pf').textContent=n+' / '+it.length+' tasks done';
+ const P=pts(),sc=document.getElementById('sc');
+ if(sc)sc.textContent='Points: '+P.m+' / '+P.mt;
+ document.getElementById('pts').innerHTML='<b>Your points (automatically marked tasks)</b><br>Comprehension: '+P.m+' / '+P.mt+'<br>Vocabulary: '+P.v+' / '+P.vt+(vfirst===null?' (press Check in the Vocabulary section)':'')+'<br><b>Total: '+(P.m+P.v)+' / '+(P.mt+P.vt)+'</b>'}
+function pts(){const d=D[L];let m=0;d.mcq.forEach((q,i)=>{if(first[L+i]===1)m++});return{m,mt:d.mcq.length,v:vfirst||0,vt:d.voc.length}}
+document.addEventListener('input',upd);document.addEventListener('change',upd);
+render();
+
+(function(){const o=document.getElementById('ss-open'),p=document.getElementById('ss');
+ const open=()=>{p.hidden=false;document.body.classList.add('ss-open');p.scrollTop=0;document.getElementById('ss-close').focus()};
+ const close=()=>{p.hidden=true;document.body.classList.remove('ss-open');o.focus()};
+ o.addEventListener('click',open);
+ ['ss-close','ss-close2'].forEach(i=>document.getElementById(i).addEventListener('click',close));
+ document.addEventListener('keydown',e=>{if(e.key=='Escape'&&!p.hidden)close()});
+ document.getElementById('ss-ck').addEventListener('change',()=>{const c=[...document.querySelectorAll('#ss-ck input')];document.getElementById('ss-ckn').textContent=c.filter(x=>x.checked).length+' / '+c.length+' ticked'});
+})();
+</script>
+
+
+
+</body>
+</html>
